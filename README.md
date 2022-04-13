@@ -7,6 +7,10 @@
 --> Easy to use <br>
 --> Mobile view supported <br>
 --> Netflix like frontend (I dont think so) <br>
+
+# Notice 
+**We are not officially on any social media other than github**
+
 # Scraper for Anime Streaming and some others things
 --> Scraper i used for getting m3u8 url for watching anime, episodes for an anime and many more... is [@riimuru](https://github.com/riimuru).   
 He's scraper repo is - https://github.com/riimuru/gogoanime. Checkout his other repos too! He helped me a lot for m3u8 url and watching animes. <br>
