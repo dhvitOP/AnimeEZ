@@ -33,3 +33,5 @@ Just click run if its repl otherwise type `node index.js` in console.
 
 # ITS NOT MADE FOR PRODUCTION USE AND DON'T TRY TO COPY THE FULL WEBSITE ATLEAST EDIT SOMETHING
 
+# Quick.db Being Used 
+--> Quick.db is used as saving information and again saving the information after sometime to update it. Like Homepage which updates information every 7 Minutes (In Starting the code After 7 minutes the homepage's data will be okay).
