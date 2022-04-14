@@ -8,6 +8,14 @@
 --> Mobile view supported <br>
 --> Netflix like frontend (I dont think so) <br> <br> 
 
+# Example and Demo
+--> Demo website - https://animeez.tk
+--> Video - 
+
+https://user-images.githubusercontent.com/77879772/163311540-1842f10e-298e-4f82-a6e2-908edce5f581.mp4
+
+
+
 # Notice 
 **We are not officially on any social media other than github** <br>
 **On 30 Stars i will start working on adding manga also**
