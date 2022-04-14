@@ -9,7 +9,7 @@
 --> Netflix like frontend (I dont think so) <br> <br> 
 
 # Example and Demo
---> Demo website - https://animeez.tk
+--> Demo website - https://animeez.tk <br>
 --> Video - 
 
 https://user-images.githubusercontent.com/77879772/163311540-1842f10e-298e-4f82-a6e2-908edce5f581.mp4
