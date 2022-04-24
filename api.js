@@ -13,7 +13,20 @@ const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 const Referer = "https://gogoplay.io/"
 const BASE_URL = "https://gogoanime.fi"
 const ajax_url = "https://ajax.gogo-load.com/"
+const ENCRYPTION_KEYS_URL = "https://raw.githubusercontent.com/justfoolingaround/animdl-provider-benchmarks/master/api/gogoanime.json"
 
+let iv = null;
+let key = null;
+let second_key = null;
+const fetch_keys = async() => {
+    const response = await axios.get(ENCRYPTION_KEYS_URL);
+    const res = response.data;
+    return {
+        iv: CryptoJS.enc.Utf8.parse(res.iv),
+        key: CryptoJS.enc.Utf8.parse(res.key),
+        second_key: CryptoJS.enc.Utf8.parse(res.second_key)
+    };
+}
 async function newSeason(page) {
     var anime_list = []
 
@@ -327,24 +340,29 @@ function f_random(length) {
     }
     return str;
 }
-const iv = CryptoJS.enc.Utf8.parse('4770478969418267');
-const ajaxData = CryptoJS.enc.Utf8.parse('63976882873559819639988080820907');
-function generateEncryptAjaxParameters($, id) {
-  const
+
+async function generateEncryptAjaxParameters($, id) {
+ const keys = await fetch_keys();
+    iv = keys.iv;
+    key = keys.key;
+    second_key = keys.second_key;
+
+    const
         cryptVal = $("script[data-name='episode']").data().value,
-        decryptedData = CryptoJS.AES['decrypt'](cryptVal, ajaxData, {
+        decryptedData = CryptoJS.AES['decrypt'](cryptVal, key, {
             'iv': iv
         }),
         decryptedStr = CryptoJS.enc.Utf8.stringify(decryptedData),
         videoId = decryptedStr.substring(0, decryptedStr.indexOf('&')),
-        encryptedVideoId = CryptoJS.AES['encrypt'](videoId, ajaxData, {
+        encryptedVideoId = CryptoJS.AES['encrypt'](videoId, key, {
             'iv': iv
         }).toString();
+
     return 'id=' + encryptedVideoId + decryptedStr.substring(decryptedStr.indexOf('&')) + '&alias=' + videoId;
 
 }
  function decryptEncryptAjaxResponse(obj) {
-    const decrypted = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(obj.data, ajaxData, {
+    const decrypted = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(obj.data, second_key, {
         'iv': iv
     }));
     return JSON.parse(decrypted);
@@ -354,10 +372,10 @@ let sources = []
   const goGoServerPage = await axios.get(serverUrl.href, { headers: { 'User-Agent': USER_AGENT } })
         const $$ = cheerio.load(goGoServerPage.data)
 
-        const params = generateEncryptAjaxParameters($$, serverUrl.searchParams.get('id'));
+        const params = await generateEncryptAjaxParameters($$, serverUrl.searchParams.get('id'));
 
 
-  
+  console.log(params)
         const fetchRes = await axios.get(`
         ${serverUrl.protocol}//${serverUrl.hostname}/encrypt-ajax.php?${params}`, {
             headers: {
@@ -367,7 +385,7 @@ let sources = []
             }
         })
 
-        const res = decryptEncryptAjaxResponse(fetchRes.data)
+        const res =  decryptEncryptAjaxResponse(fetchRes.data)
 
         if (!res.source) return { error: "No source found" };
 
