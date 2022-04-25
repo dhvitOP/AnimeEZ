@@ -1,4 +1,5 @@
 # AnimeEZ
+# A new ui is out on live website (https://animeez.tk), Its in NextJS. Whenever stars reach 30. I will Update the repo to the new ui.
 **AnimeEZ - An Anime Streaming website (Demo - https://animeez.tk) BTW ITS MADE IN HTML** <br>
 # Features?
 --> Its lightweight (after the anime details are set in db XD) <br>
